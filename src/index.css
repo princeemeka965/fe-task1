@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css?family=Inter");
 @import url("https://fonts.googleapis.com/css?family=Poppins");
 
 body {
@@ -10,4 +11,46 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
+  position: fixed;
+  width: 100%;
+}
+
+.header-font {
+  font-family: Inter !important;
+}
+
+.arrow-triangle {
+  position: relative;
+  background-color: #00635b;
+  text-align: left;
+  margin: 0.5em;
+}
+
+.arrow-triangle:before,
+.arrow-triangle:after {
+  content: "";
+  position: absolute;
+  background-color: inherit;
+}
+
+.arrow-triangle,
+.arrow-triangle:before,
+.arrow-triangle:after {
+  width: 0.5em;
+  height: 0.5em;
+  border-top-right-radius: 30%;
+}
+
+.arrow-triangle.left {
+  transform: rotate(-90deg) skewX(-30deg) scale(1, 0.866);
+  left: 34%;
+}
+
+.arrow-triangle:before {
+  transform: rotate(-135deg) skewX(-45deg) scale(1.414, 0.707)
+    translate(0, -50%);
+}
+
+.arrow-triangle:after {
+  transform: rotate(135deg) skewY(-45deg) scale(0.707, 1.414) translate(50%);
 }
