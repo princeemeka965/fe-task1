@@ -2,8 +2,8 @@ const Header: React.FC = () => {
   return (
     <>
       <div
-        className="flex flex-grow bg-white fixed w-full header-font shadow-md"
-        style={{ margin: "0 1px" }}
+        className="flex flex-grow bg-white fixed pt-16 w-full header-font shadow-md"
+        style={{ margin: "0 1px", zIndex: "9999" }}
       >
         <div className="flex w-1/4 px-4 justify-center">
           <div className="flex flex-grow justify-center py-5">
