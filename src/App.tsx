@@ -1,13 +1,23 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import SideBar from "./layouts/SideBar";
 import Header from "./layouts/Header";
 import Dropzone from "./layouts/Dropzone";
 import { Checkbox } from "@material-tailwind/react";
 import { Switch } from "@material-tailwind/react";
+import { formApi } from "./services/apiFactory";
+import Menu from "./components/Menu";
+
+interface questionsType {
+  id: number;
+  type: string;
+}
 
 function App() {
   const [image, setImages] = useState<string>("");
+  const [formPayload, setPayload] = useState<any>({});
+  const [showQuestionsBlock, setQuestionsBlock] = useState<boolean>(false);
+  const [selectedType, setQuestionType] = useState<string>("");
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     acceptedFiles.map((file: File) => {
@@ -24,6 +34,66 @@ function App() {
     });
   }, []);
 
+  const addQuestions = (type: string): void => {
+    setQuestionsBlock(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    async function getFormSchema() {
+      const result = await formApi.getFormSchema();
+      const formData = result.data.data;
+      /**
+       * EMPTY Personal Questions Array, Profile Questions Array, Customised Questions Array
+       */
+      formData.attributes.personalInformation.personalQuestions = [];
+      formData.attributes.profile.profileQuestions = [];
+      formData.attributes.customisedQuestions = [];
+
+      setPayload(formData);
+    }
+    getFormSchema();
+  }, []);
+
+  let questionsType: questionsType[] = [
+    {
+      id: 1,
+      type: "Paragraph",
+    },
+    {
+      id: 2,
+      type: "Short answer",
+    },
+    {
+      id: 3,
+      type: "Yes/No",
+    },
+    {
+      id: 4,
+      type: "Dropdown",
+    },
+    {
+      id: 5,
+      type: "Multiple choice",
+    },
+    {
+      id: 6,
+      type: "Date",
+    },
+    {
+      id: 7,
+      type: "Number",
+    },
+    {
+      id: 8,
+      type: "File upload",
+    },
+    {
+      id: 9,
+      type: "Video question",
+    },
+  ];
+
   return (
     <div className="w-full h-full flex bg-white">
       <div style={{ height: "100vh", width: "3%" }}>
@@ -33,7 +103,7 @@ function App() {
         <div className="w-full h-16 flex">
           <Header />
         </div>
-        <div className="w-full flex px-5 mt-16 py-10">
+        <div className="w-full flex justify-center self-stretch px-5 mt-16 py-10">
           <div className="w-2/5 p-5 flex flex-col overflow-auto mr-3">
             {/**
              * UPLOAD COVER IMAGE
@@ -124,14 +194,27 @@ function App() {
                         label="Internal"
                         crossOrigin={undefined}
                         className="flex"
+                        checked={
+                          formPayload.attributes?.personalInformation
+                            .phoneNumber.internalUse
+                        }
                         color="green"
                       />
                     </div>
                     <div className="flex w-1/2">
                       <Switch
-                        label="Hide"
+                        label={
+                          formPayload.attributes?.personalInformation
+                            .phoneNumber.show
+                            ? "Show"
+                            : "Hide"
+                        }
                         crossOrigin={undefined}
                         color="green"
+                        checked={
+                          formPayload.attributes?.personalInformation
+                            .phoneNumber.show
+                        }
                       />
                     </div>
                   </div>
@@ -151,13 +234,26 @@ function App() {
                         crossOrigin={undefined}
                         className="flex"
                         color="green"
+                        checked={
+                          formPayload.attributes?.personalInformation
+                            .nationality.internalUse
+                        }
                       />
                     </div>
                     <div className="flex w-1/2">
                       <Switch
-                        label="Hide"
+                        label={
+                          formPayload.attributes?.personalInformation
+                            .nationality.show
+                            ? "Show"
+                            : "Hide"
+                        }
                         crossOrigin={undefined}
                         color="green"
+                        checked={
+                          formPayload.attributes?.personalInformation
+                            .nationality.show
+                        }
                       />
                     </div>
                   </div>
@@ -177,13 +273,26 @@ function App() {
                         crossOrigin={undefined}
                         className="flex"
                         color="green"
+                        checked={
+                          formPayload.attributes?.personalInformation
+                            .currentResidence.internalUse
+                        }
                       />
                     </div>
                     <div className="flex w-1/2">
                       <Switch
-                        label="Hide"
+                        label={
+                          formPayload.attributes?.personalInformation
+                            .currentResidence.show
+                            ? "Show"
+                            : "Hide"
+                        }
                         crossOrigin={undefined}
                         color="green"
+                        checked={
+                          formPayload.attributes?.personalInformation
+                            .currentResidence.show
+                        }
                       />
                     </div>
                   </div>
@@ -201,13 +310,26 @@ function App() {
                         crossOrigin={undefined}
                         className="flex"
                         color="green"
+                        checked={
+                          formPayload.attributes?.personalInformation.idNumber
+                            .internalUse
+                        }
                       />
                     </div>
                     <div className="flex w-1/2">
                       <Switch
-                        label="Hide"
+                        label={
+                          formPayload.attributes?.personalInformation.idNumber
+                            .show
+                            ? "Show"
+                            : "Hide"
+                        }
                         crossOrigin={undefined}
                         color="green"
+                        checked={
+                          formPayload.attributes?.personalInformation.idNumber
+                            .show
+                        }
                       />
                     </div>
                   </div>
@@ -227,13 +349,26 @@ function App() {
                         crossOrigin={undefined}
                         className="flex"
                         color="green"
+                        checked={
+                          formPayload.attributes?.personalInformation
+                            .dateOfBirth.internalUse
+                        }
                       />
                     </div>
                     <div className="flex w-1/2">
                       <Switch
-                        label="Hide"
+                        label={
+                          formPayload.attributes?.personalInformation
+                            .dateOfBirth.show
+                            ? "Show"
+                            : "Hide"
+                        }
                         crossOrigin={undefined}
                         color="green"
+                        checked={
+                          formPayload.attributes?.personalInformation
+                            .dateOfBirth.show
+                        }
                       />
                     </div>
                   </div>
@@ -251,14 +386,27 @@ function App() {
                         crossOrigin={undefined}
                         className="flex"
                         color="green"
+                        checked={
+                          formPayload.attributes?.personalInformation.gender
+                            .internalUse
+                        }
                       />
                     </div>
                     <div className="flex w-1/2">
                       <Switch
-                        label="Hide"
+                        label={
+                          formPayload.attributes?.personalInformation.gender
+                            .show
+                            ? "Show"
+                            : "Hide"
+                        }
                         crossOrigin={undefined}
                         ripple={false}
                         color="green"
+                        checked={
+                          formPayload.attributes?.personalInformation.gender
+                            .show
+                        }
                       />
                     </div>
                   </div>
@@ -271,7 +419,7 @@ function App() {
                       alt="add_icon"
                     />
                   </div>
-                  <div className="flex flex-col justify-center">
+                  <div className="flex flex-col justify-center cursor-pointer">
                     <span className="text-sm mx-4 font-semibold">
                       Add a question
                     </span>
@@ -370,7 +518,10 @@ function App() {
                       alt="add_icon"
                     />
                   </div>
-                  <div className="flex flex-col justify-center">
+                  <div
+                    className="flex flex-col justify-center cursor-pointer"
+                    onClick={() => addQuestions("profile")}
+                  >
                     <span className="text-sm mx-4 font-semibold">
                       Add a question
                     </span>
@@ -379,6 +530,68 @@ function App() {
               </div>
             </div>
           </div>
+
+          {/***
+           * QUESTIONS BLOCK
+           */}
+          {showQuestionsBlock && (
+            <div className="w-1/3 h-full p-5 flex flex-col">
+              <div className="flex w-full flex-col rounded-lg shadow-md bg-monaicBlue">
+                <div className="flex w-full p-4">
+                  <span className="text-lg font-semibold mx-1">Questions</span>
+                </div>
+                <div className="flex w-full flex-col bg-white py-3 px-6">
+                  <div className="flex flex-col flex-grow justify-center my-2">
+                    <div className="flex my-2">
+                      <span className="text-base font-semibold">Type</span>
+                    </div>
+                    <div className="w-1/3 flex p-1">
+                      <Menu>
+                        <Menu.Title>
+                          <div className="flex w-96 h-10 p-2 rounded-sm border justify-between items-center">
+                            <span className="text-base text-darkBlue">
+                              {selectedType}
+                            </span>
+                            <span>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="12"
+                                height="9"
+                                viewBox="0 0 12 9"
+                                fill="none"
+                              >
+                                <path
+                                  d="M0 0.172363L5.79652 0.160333L11.593 0.148303L5.80507 8.32049L0 0.172363Z"
+                                  fill="black"
+                                />
+                              </svg>
+                            </span>
+                          </div>
+                        </Menu.Title>
+                        <Menu.Section>
+                          <div className="flex w-full flex-col rounded-sm bg-white items-start">
+                            {questionsType.map((questionType) => (
+                              <div
+                                className="flex w-full p-3 cursor-pointer hover:bg-purple hover:text-white"
+                                key={questionType.id}
+                                onClick={() =>
+                                  setQuestionType(questionType.type)
+                                }
+                              >
+                                <span className="text-base">
+                                  {questionType.type}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </Menu.Section>
+                      </Menu>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
