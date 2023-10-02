@@ -3,12 +3,12 @@ import { Checkbox, Switch } from "@material-tailwind/react";
 import Menu from "../components/Menu";
 import { formApi } from "../services/apiFactory";
 
-interface PersonalInfoProps {
+interface ProfileInfoProps {
   formPayload: any;
 }
 
 interface InfoActions {
-  internalUse: boolean;
+  mandatory: boolean;
   show: boolean;
 }
 
@@ -32,44 +32,24 @@ interface personalQuestionsType {
   profilePayload: [];
 }
 
-const PersonalInfo = ({ formPayload }: PersonalInfoProps): any => {
+const ProfileInfo = ({ formPayload }: ProfileInfoProps): any => {
   const [profilePayload, setProfilePayload] = useState<questionsPayload[]>([]);
-  const [personalQuestions, setPersonalQuestions] =
+  const [profileQuestions, setProfileQuestions] =
     useState<personalQuestionsType>({ profilePayload: [] });
 
-  const [phone, setPhoneData] = useState<InfoActions>({
-    internalUse:
-      formPayload.attributes?.personalInformation.phoneNumber.internalUse,
-    show: formPayload.attributes?.personalInformation.phoneNumber.show,
+  const [education, setEducationData] = useState<InfoActions>({
+    mandatory: formPayload.attributes?.profile.education.mandatory,
+    show: formPayload.attributes?.profile.education.show,
   });
 
-  const [nationality, setNationality] = useState<InfoActions>({
-    internalUse:
-      formPayload.attributes?.personalInformation.nationality.internalUse,
-    show: formPayload.attributes?.personalInformation.nationality.show,
+  const [experience, setExperience] = useState<InfoActions>({
+    mandatory: formPayload.attributes?.profile.experience.mandatory,
+    show: formPayload.attributes?.profile.experience.show,
   });
 
-  const [residence, setResidence] = useState<InfoActions>({
-    internalUse:
-      formPayload.attributes?.personalInformation.currentResidence.internalUse,
-    show: formPayload.attributes?.personalInformation.currentResidence.show,
-  });
-
-  const [idNumber, setIdNumber] = useState<InfoActions>({
-    internalUse:
-      formPayload.attributes?.personalInformation.idNumber.internalUse,
-    show: formPayload.attributes?.personalInformation.idNumber.show,
-  });
-
-  const [dateOfBirth, setDateOfBirth] = useState<InfoActions>({
-    internalUse:
-      formPayload.attributes?.personalInformation.dateOfBirth.internalUse,
-    show: formPayload.attributes?.personalInformation.dateOfBirth.show,
-  });
-
-  const [gender, setGender] = useState<InfoActions>({
-    internalUse: formPayload.attributes?.personalInformation.gender.internalUse,
-    show: formPayload.attributes?.personalInformation.gender.show,
+  const [resume, setResume] = useState<InfoActions>({
+    mandatory: formPayload.attributes?.profile.resume.mandatory,
+    show: formPayload.attributes?.profile.resume.show,
   });
 
   const addQuestions = (): void => {
@@ -203,30 +183,16 @@ const PersonalInfo = ({ formPayload }: PersonalInfoProps): any => {
   };
 
   const savePayload = () => {
-    formPayload.attributes.personalInformation.phoneNumber.internalUse =
-      phone.internalUse;
-    formPayload.attributes.personalInformation.phoneNumber.show = phone.show;
-    formPayload.attributes.personalInformation.nationality.internalUse =
-      nationality.internalUse;
-    formPayload.attributes.personalInformation.nationality.show =
-      nationality.show;
-    formPayload.attributes.personalInformation.currentResidence.internalUse =
-      residence.internalUse;
-    formPayload.attributes.personalInformation.currentResidence.show =
-      residence.show;
-    formPayload.attributes.personalInformation.idNumber.internalUse =
-      idNumber.internalUse;
-    formPayload.attributes.personalInformation.idNumber.show = idNumber.show;
-    formPayload.attributes.personalInformation.dateOfBirth.internalUse =
-      dateOfBirth.internalUse;
-    formPayload.attributes.personalInformation.dateOfBirth.show =
-      dateOfBirth.show;
-    formPayload.attributes.personalInformation.gender.internalUse =
-      gender.internalUse;
-    formPayload.attributes.personalInformation.gender.show = gender.show;
+    formPayload.attributes.profile.education.mandatory = education.mandatory;
+    formPayload.attributes.profile.education.show = education.show;
 
-    formPayload.attributes.personalInformation.personalQuestions =
-      profilePayload;
+    formPayload.attributes.profile.experience.mandatory = experience.mandatory;
+    formPayload.attributes.profile.experience.show = experience.show;
+
+    formPayload.attributes.profile.resume.mandatory = resume.mandatory;
+    formPayload.attributes.profile.resume.show = resume.show;
+
+    formPayload.attributes.profile.profileQuestions = profilePayload;
 
     /**
      * Payload to send to the backend
@@ -237,7 +203,7 @@ const PersonalInfo = ({ formPayload }: PersonalInfoProps): any => {
     formApi.pushFormSchema(payload);
 
     /** Display the Questions saved */
-    setPersonalQuestions((prevState: any) => ({
+    setProfileQuestions((prevState: any) => ({
       ...prevState,
       profilePayload,
     }));
@@ -246,274 +212,36 @@ const PersonalInfo = ({ formPayload }: PersonalInfoProps): any => {
   };
 
   return (
-    <div className="flex w-full flex-col rounded-lg my-16 shadow-md bg-monaicBlue">
+    <div className="flex w-full flex-col rounded-lg shadow-md bg-monaicBlue">
       <div className="flex w-full justify-center p-4">
-        <span className="text-lg font-semibold">Personal Information</span>
+        <span className="text-lg font-semibold">Profile</span>
       </div>
       <div className="flex w-full flex-col bg-white p-3">
         <div className="flex w-full p-2 justify-between border-b-2 items-center self-stretch">
-          <div className="flex flex-col justify-center my-2">
-            <span className="text-sm font-semibold">First Name</span>
-          </div>
-        </div>
-        <div className="flex w-full p-2 justify-between border-b-2 items-center self-stretch">
-          <div className="flex flex-col justify-center my-2">
-            <span className="text-sm font-semibold">Last Name</span>
-          </div>
-        </div>
-        <div className="flex w-full p-2 justify-between border-b-2 items-center self-stretch">
-          <div className="flex flex-col justify-center my-2">
-            <span className="text-sm font-semibold">Email</span>
-          </div>
-        </div>
-        <div className="flex w-full p-2 justify-between border-b-2 items-center self-stretch">
           <div className="flex flex-col flex-grow justify-center my-2">
             <div className="flex">
-              <span className="text-sm font-semibold">Phone</span>
-              <span className="text-sm mx-1" style={{ paddingTop: 1 }}>
-                (without dial code)
-              </span>
+              <span className="text-sm font-semibold">Education</span>
             </div>
           </div>
           <div className="flex justify-between items-center self-stretch my-2">
             <div className="flex flex-grow mr-4">
               <Checkbox
-                label="Internal"
+                label="Mandatory"
                 crossOrigin={undefined}
                 className="flex"
                 color="green"
-                checked={phone.internalUse}
+                checked={education.mandatory}
                 onChange={() =>
-                  setPhoneData({
-                    internalUse: !phone.internalUse,
-                    show: phone.show,
+                  setEducationData({
+                    mandatory: !education.mandatory,
+                    show: education.show,
                   })
                 }
               />
             </div>
             <div className="flex w-1/2">
               <Switch
-                label={phone.show ? "Show" : "Hide"}
-                crossOrigin={undefined}
-                className="h-full w-full checked:bg-[#2ec946]"
-                containerProps={{
-                  className: "w-11 h-6",
-                }}
-                circleProps={{
-                  className: "before:hidden left-0.5 border-none",
-                }}
-                checked={phone.show}
-                onChange={() =>
-                  setPhoneData({
-                    internalUse: phone.internalUse,
-                    show: !phone.show,
-                  })
-                }
-              />
-            </div>
-          </div>
-        </div>
-        <div className="flex w-full p-2 justify-between border-b-2 items-center self-stretch">
-          <div className="flex flex-col flex-grow justify-center my-2">
-            <div className="flex">
-              <span className="text-sm font-semibold">Nationality</span>
-            </div>
-          </div>
-          <div className="flex justify-between items-center self-stretch my-2">
-            <div className="flex flex-grow mr-4">
-              <Checkbox
-                label="Internal"
-                crossOrigin={undefined}
-                className="flex"
-                color="green"
-                checked={nationality.internalUse}
-                onChange={() =>
-                  setNationality({
-                    internalUse: !nationality.internalUse,
-                    show: nationality.show,
-                  })
-                }
-              />
-            </div>
-            <div className="flex w-1/2">
-              <Switch
-                label={nationality.show ? "Show" : "Hide"}
-                crossOrigin={undefined}
-                className="h-full w-full checked:bg-[#2ec946]"
-                containerProps={{
-                  className: "w-11 h-6",
-                }}
-                circleProps={{
-                  className: "before:hidden left-0.5 border-none",
-                }}
-                checked={nationality.show}
-                onChange={() =>
-                  setNationality({
-                    internalUse: nationality.internalUse,
-                    show: !nationality.show,
-                  })
-                }
-              />
-            </div>
-          </div>
-        </div>
-        <div className="flex w-full p-2 justify-between border-b-2 items-center self-stretch">
-          <div className="flex flex-col flex-grow justify-center my-2">
-            <div className="flex">
-              <span className="text-sm font-semibold">Current Residence</span>
-            </div>
-          </div>
-          <div className="flex justify-between items-center self-stretch my-2">
-            <div className="flex flex-grow mr-4">
-              <Checkbox
-                label="Internal"
-                crossOrigin={undefined}
-                className="flex"
-                color="green"
-                checked={residence.internalUse}
-                onChange={() =>
-                  setResidence({
-                    internalUse: !residence.internalUse,
-                    show: residence.show,
-                  })
-                }
-              />
-            </div>
-            <div className="flex w-1/2">
-              <Switch
-                label={residence.show ? "Show" : "Hide"}
-                crossOrigin={undefined}
-                className="h-full w-full checked:bg-[#2ec946]"
-                containerProps={{
-                  className: "w-11 h-6",
-                }}
-                circleProps={{
-                  className: "before:hidden left-0.5 border-none",
-                }}
-                checked={residence.show}
-                onChange={() =>
-                  setResidence({
-                    internalUse: residence.internalUse,
-                    show: !residence.show,
-                  })
-                }
-              />
-            </div>
-          </div>
-        </div>
-        <div className="flex w-full p-2 justify-between border-b-2 items-center self-stretch">
-          <div className="flex flex-col flex-grow justify-center my-2">
-            <div className="flex">
-              <span className="text-sm font-semibold">ID Number</span>
-            </div>
-          </div>
-          <div className="flex justify-between items-center self-stretch my-2">
-            <div className="flex flex-grow mr-4">
-              <Checkbox
-                label="Internal"
-                crossOrigin={undefined}
-                className="flex"
-                color="green"
-                checked={idNumber.internalUse}
-                onChange={() =>
-                  setIdNumber({
-                    internalUse: !idNumber.internalUse,
-                    show: idNumber.show,
-                  })
-                }
-              />
-            </div>
-            <div className="flex w-1/2">
-              <Switch
-                label={idNumber.show ? "Show" : "Hide"}
-                crossOrigin={undefined}
-                className="h-full w-full checked:bg-[#2ec946]"
-                containerProps={{
-                  className: "w-11 h-6",
-                }}
-                circleProps={{
-                  className: "before:hidden left-0.5 border-none",
-                }}
-                checked={idNumber.show}
-                onChange={() =>
-                  setIdNumber({
-                    internalUse: idNumber.internalUse,
-                    show: !idNumber.show,
-                  })
-                }
-              />
-            </div>
-          </div>
-        </div>
-        <div className="flex w-full p-2 justify-between border-b-2 items-center self-stretch">
-          <div className="flex flex-col flex-grow justify-center my-2">
-            <div className="flex">
-              <span className="text-sm font-semibold">Date of Birth</span>
-            </div>
-          </div>
-          <div className="flex justify-between items-center self-stretch my-2">
-            <div className="flex flex-grow mr-4">
-              <Checkbox
-                label="Internal"
-                crossOrigin={undefined}
-                className="flex"
-                color="green"
-                checked={dateOfBirth.internalUse}
-                onChange={() =>
-                  setDateOfBirth({
-                    internalUse: !dateOfBirth.internalUse,
-                    show: dateOfBirth.show,
-                  })
-                }
-              />
-            </div>
-            <div className="flex w-1/2">
-              <Switch
-                label={dateOfBirth.show ? "Show" : "Hide"}
-                crossOrigin={undefined}
-                className="h-full w-full checked:bg-[#2ec946]"
-                containerProps={{
-                  className: "w-11 h-6",
-                }}
-                circleProps={{
-                  className: "before:hidden left-0.5 border-none",
-                }}
-                checked={dateOfBirth.show}
-                onChange={() =>
-                  setDateOfBirth({
-                    internalUse: dateOfBirth.internalUse,
-                    show: !dateOfBirth.show,
-                  })
-                }
-              />
-            </div>
-          </div>
-        </div>
-        <div className="flex w-full p-2 justify-between items-center self-stretch">
-          <div className="flex flex-col flex-grow justify-center my-2">
-            <div className="flex">
-              <span className="text-sm font-semibold">Gender</span>
-            </div>
-          </div>
-          <div className="flex justify-between items-center self-stretch my-2">
-            <div className="flex flex-grow mr-4">
-              <Checkbox
-                label="Internal"
-                crossOrigin={undefined}
-                className="flex"
-                color="green"
-                checked={gender.internalUse}
-                onChange={() =>
-                  setGender({
-                    internalUse: !gender.internalUse,
-                    show: gender.show,
-                  })
-                }
-              />
-            </div>
-            <div className="flex w-1/2">
-              <Switch
-                label={gender.show ? "Show" : "Hide"}
+                label={education.show ? "Show" : "Hide"}
                 crossOrigin={undefined}
                 ripple={false}
                 className="h-full w-full checked:bg-[#2ec946]"
@@ -523,11 +251,101 @@ const PersonalInfo = ({ formPayload }: PersonalInfoProps): any => {
                 circleProps={{
                   className: "before:hidden left-0.5 border-none",
                 }}
-                checked={gender.show}
+                checked={education.show}
                 onChange={() =>
-                  setGender({
-                    internalUse: gender.internalUse,
-                    show: !gender.show,
+                  setEducationData({
+                    mandatory: education.mandatory,
+                    show: !education.show,
+                  })
+                }
+              />
+            </div>
+          </div>
+        </div>
+        <div className="flex w-full p-2 justify-between border-b-2 items-center self-stretch">
+          <div className="flex flex-col flex-grow justify-center my-2">
+            <div className="flex">
+              <span className="text-sm font-semibold">Experience</span>
+            </div>
+          </div>
+          <div className="flex justify-between items-center self-stretch my-2">
+            <div className="flex flex-grow mr-4">
+              <Checkbox
+                label="Mandatory"
+                crossOrigin={undefined}
+                className="flex"
+                color="green"
+                checked={experience.mandatory}
+                onChange={() =>
+                  setExperience({
+                    mandatory: !experience.mandatory,
+                    show: experience.show,
+                  })
+                }
+              />
+            </div>
+            <div className="flex w-1/2">
+              <Switch
+                label={experience.show ? "Show" : "Hide"}
+                crossOrigin={undefined}
+                ripple={false}
+                className="h-full w-full checked:bg-[#2ec946]"
+                containerProps={{
+                  className: "w-11 h-6",
+                }}
+                circleProps={{
+                  className: "before:hidden left-0.5 border-none",
+                }}
+                checked={experience.show}
+                onChange={() =>
+                  setExperience({
+                    mandatory: experience.mandatory,
+                    show: !experience.show,
+                  })
+                }
+              />
+            </div>
+          </div>
+        </div>
+        <div className="flex w-full p-2 justify-between items-center self-stretch">
+          <div className="flex flex-col flex-grow justify-center my-2">
+            <div className="flex">
+              <span className="text-base font-semibold">Resume</span>
+            </div>
+          </div>
+          <div className="flex justify-between items-center self-stretch my-2">
+            <div className="flex flex-grow mr-4">
+              <Checkbox
+                label="Mandatory"
+                crossOrigin={undefined}
+                className="flex"
+                color="green"
+                checked={resume.mandatory}
+                onChange={() =>
+                  setResume({
+                    mandatory: !resume.mandatory,
+                    show: resume.show,
+                  })
+                }
+              />
+            </div>
+            <div className="flex w-1/2">
+              <Switch
+                label={resume.show ? "Show" : "Hide"}
+                crossOrigin={undefined}
+                ripple={false}
+                className="h-full w-full checked:bg-[#2ec946]"
+                containerProps={{
+                  className: "w-11 h-6",
+                }}
+                circleProps={{
+                  className: "before:hidden left-0.5 border-none",
+                }}
+                checked={resume.show}
+                onChange={() =>
+                  setExperience({
+                    mandatory: resume.mandatory,
+                    show: !resume.show,
                   })
                 }
               />
@@ -535,28 +353,19 @@ const PersonalInfo = ({ formPayload }: PersonalInfoProps): any => {
           </div>
         </div>
 
-        {personalQuestions?.profilePayload.map((question: any) => (
+        {profileQuestions?.profilePayload.map((question: any) => (
           <div
             className="flex w-full flex-col bg-white py-3 px-1 mt-3"
             key={question.id}
           >
-            <div className="w-full flex justify-between items-center self-stretch">
-              <div className="flex flex-col flex-grow justify-center my-2">
-                <div className="flex my-2 mx-1">
-                  <span className="text-xs text-darkGrey">{question.type}</span>
-                </div>
-                <div className="flex mx-1">
-                  <span className="text-base font-semibold">
-                    {question.question}
-                  </span>
-                </div>
+            <div className="flex flex-col flex-grow justify-center my-2">
+              <div className="flex my-2 mx-1">
+                <span className="text-xs text-darkGrey">{question.type}</span>
               </div>
-              <div className="flex flex-col justify-center mt-5">
-                <img
-                  src="./pencil.png"
-                  alt="pencil"
-                  style={{ width: "15px" }}
-                />
+              <div className="flex mx-1">
+                <span className="text-lg font-semibold">
+                  {question.question}
+                </span>
               </div>
             </div>
           </div>
@@ -796,4 +605,4 @@ const PersonalInfo = ({ formPayload }: PersonalInfoProps): any => {
   );
 };
 
-export default PersonalInfo;
+export default ProfileInfo;
