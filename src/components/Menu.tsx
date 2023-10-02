@@ -66,7 +66,7 @@ const Menu: FC<MenuProps> & {
 
   return (
     <>
-      <div className="relative flex item-center">
+      <div className="relative w-full">
         <div
           className="cursor-pointer"
           ref={buttonRef}

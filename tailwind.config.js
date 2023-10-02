@@ -10,7 +10,8 @@ module.exports = withMT({
         darkGrey: '#979797',
         monaicBlue: '#D0F7FA',
         wineRed: '#A80000',
-        purple: '#9C4DE2'
+        purple: '#9C4DE2',
+        greenBtn: '#087B2F'
       }
     },
   },
