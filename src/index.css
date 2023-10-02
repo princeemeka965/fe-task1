@@ -14,6 +14,10 @@ body {
   width: 100%;
 }
 
+input {
+  outline: none;
+}
+
 .header-font {
   font-family: Inter !important;
 }

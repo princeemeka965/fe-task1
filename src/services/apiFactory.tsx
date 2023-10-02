@@ -8,4 +8,11 @@ export const formApi = {
       `${BASE_URL}/515.1416329633107/programs/magnam/application-form`
     );
   },
+
+  pushFormSchema(payload: any) {
+    return axios.put(
+      `${BASE_URL}/204.0410652749135/programs/aut/application-form`,
+      payload
+    );
+  },
 };
