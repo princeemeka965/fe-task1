@@ -358,14 +358,23 @@ const ProfileInfo = ({ formPayload }: ProfileInfoProps): any => {
             className="flex w-full flex-col bg-white py-3 px-1 mt-3"
             key={question.id}
           >
-            <div className="flex flex-col flex-grow justify-center my-2">
-              <div className="flex my-2 mx-1">
-                <span className="text-xs text-darkGrey">{question.type}</span>
+            <div className="w-full flex justify-between items-center self-stretch">
+              <div className="flex flex-col flex-grow justify-center my-2">
+                <div className="flex my-2 mx-1">
+                  <span className="text-xs text-darkGrey">{question.type}</span>
+                </div>
+                <div className="flex mx-1">
+                  <span className="text-base font-semibold">
+                    {question.question}
+                  </span>
+                </div>
               </div>
-              <div className="flex mx-1">
-                <span className="text-lg font-semibold">
-                  {question.question}
-                </span>
+              <div className="flex flex-col justify-center mt-5">
+                <img
+                  src="./pencil.png"
+                  alt="pencil"
+                  style={{ width: "15px" }}
+                />
               </div>
             </div>
           </div>
